@@ -91,7 +91,7 @@ class PlayState extends FlxState
 
 		cash = 0;
 
-		if (level <= 2) level = 3;
+		//if (level <= 2) level = 4;
 
 		switch (level) {
 			case 1:
