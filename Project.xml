@@ -14,10 +14,11 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="960" height="540" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="1008" height="567" fps="60" background="#000000" hardware="true" vsync="false" />
+	<!--<window width="1056" height="594" fps="60" background="#000000" hardware="true" vsync="false" />-->
 
 	<!--HTML5-specific-->
-	<window if="html5" resizable="true" />
+	<window if="html5" resizable="true" antialiasing="false" allow-high-dpi="true" />
 
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
