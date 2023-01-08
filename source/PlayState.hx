@@ -76,6 +76,9 @@ class PlayState extends FlxState
 	static public inline var MAX_PARTICLES:Int = 200;
 	public var particleIndex:Int = 0;
 
+	static public var firstPlay:Bool = true;
+	public var playTime:Float = 0.0;
+
 	override public function create():Void
 	{
 		super.create();
@@ -91,7 +94,8 @@ class PlayState extends FlxState
 
 		cash = 0;
 
-		//if (level <= 2) level = 4;
+
+		//if (firstPlay && level <= 2) level = 3;  //for testing
 
 		switch (level) {
 			case 1:
@@ -103,7 +107,7 @@ class PlayState extends FlxState
 				gameAreaHeight = 4;  // max 7
 				cashObjective = 150;
 				totalDays = 12;
-				dayTimeTotal = 21;
+				dayTimeTotal = 22;
 			case 2:
 				numMoves = numMovesMax = 4;
 				seeds = [2, 3, 0, 0];
@@ -113,7 +117,7 @@ class PlayState extends FlxState
 				gameAreaHeight = 4;  // max 7
 				cashObjective = 600;
 				totalDays = 15;
-				dayTimeTotal = 23;
+				dayTimeTotal = 24;
 			case 3:
 				numMoves = numMovesMax = 6;
 				seeds = [2, 4, 0, 0];
@@ -121,29 +125,29 @@ class PlayState extends FlxState
 				NUM_CURSOR_TYPES = 14;
 				gameAreaWidth = 7;  // max 9
 				gameAreaHeight = 5;  // max 7
-				cashObjective = 1400;
+				cashObjective = 1250;
 				totalDays = 16;
-				dayTimeTotal = 25;
+				dayTimeTotal = 26;
 			case 4:
-				numMoves = numMovesMax = 8;
-				seeds = [2, 4, 0, 0];
+				numMoves = numMovesMax = 5;
+				seeds = [2, 5, 0, 0];
 				levelColor = 0xff88be93;
 				NUM_CURSOR_TYPES = 30;
 				gameAreaWidth = 8;  // max 9
 				gameAreaHeight = 6;  // max 7
-				cashObjective = 5000;
-				totalDays = 18;
-				dayTimeTotal = 27;
+				cashObjective = 1500;
+				totalDays = 20;
+				dayTimeTotal = 30;
 			case 5:
-				numMoves = numMovesMax = 8;
-				seeds = [2, 5, 0, 0];
+				numMoves = numMovesMax = 6;
+				seeds = [2, 7, 0, 0];
 				levelColor = 0xffb188be;
 				NUM_CURSOR_TYPES = 32;
 				gameAreaWidth = 9;  // max 9
 				gameAreaHeight = 7;  // max 7
-				cashObjective = 15000;
-				totalDays = 20;
-				dayTimeTotal = 30;
+				cashObjective = 2500;
+				totalDays = 25;
+				dayTimeTotal = 32;
 		}
 
 		//FlxG.camera.bgColor = 0xff1b1c23;
@@ -257,14 +261,25 @@ class PlayState extends FlxState
 			CursorType.rotateRight(cursors);
 
 		
+		if (firstPlay) {
+			
+		}
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.R)
-			restart();
+		playTime += elapsed;
+
+		if (firstPlay && playTime > 1.0) {
+			firstPlay = false;
+			openSubState(new InfoWindow("SPACE HARVEST 9000!", "Sell exotic produce around the galaxy and retire in style!\n\nTill the land, place seeds, water them and watch 'em grow!\n\nMake enough cash to travel to the next 4 destinations!"));
+			onHoe();
+		}
+
+		//if (FlxG.keys.justPressed.R)
+			//restart();
 
 		cursorObject.setPosition(FlxG.mouse.x, FlxG.mouse.y);
 		cursorObject.last.set(cursorObject.x, cursorObject.y);
@@ -273,7 +288,7 @@ class PlayState extends FlxState
 		if (FlxG.mouse.pressed)
 			FlxG.overlap(cursorObject, tiles, onTilePointerClick);
 		// action //
-		if (!justHarvested && numMoves > 0 && FlxG.overlap(cursorObject, tiles) && !(action == SEED && seeds[seedType - 1] <= 0)) {
+		if (!justHarvested && numMoves > 0 && FlxG.overlap(cursorObject, tiles) && !(action == SEED && seeds[seedType - 1] <= 0) && !firstPlay) {
 			var cursorX:Float = FlxG.mouse.x - TILE_WIDTH * 2.0;
 			var cursorY:Float = FlxG.mouse.y - TILE_HEIGHT * 2.0;
 			var i = 0;
@@ -314,10 +329,12 @@ class PlayState extends FlxState
 		}
 
 		if (FlxG.keys.justPressed.W) {
-			action = WATER;
+			//action = WATER;
+			onWater();
 		}
 		else if (FlxG.keys.justPressed.T) {
-			action = TILL;
+			//action = TILL;
+			onHoe();
 		}
 
 		if (FlxG.keys.justPressed.ONE || FlxG.keys.justPressed.NUMPADONE)
@@ -430,37 +447,79 @@ class PlayState extends FlxState
 	function onSeed1() {
         if (seeds[0] <= 0) return;
 
+		removeButtonHL();
+
         seedType = 1;
 		action = SEED;
+
+		seedButtons.members[0].loadGraphic("assets/images/seed1_button_HL.png", true, 69, 78);
     }
 
     function onSeed2() {
         if (seeds[1] <= 0) return;
 
+		removeButtonHL();
+
         seedType = 2;
 		action = SEED;
+
+		seedButtons.members[1].loadGraphic("assets/images/seed2_button_HL.png", true, 69, 78);
     }
 
     function onSeed3() {
         if (seeds[2] <= 0) return;
 
+		removeButtonHL();
+
         seedType = 3;
 		action = SEED;
+
+		seedButtons.members[2].loadGraphic("assets/images/seed3_button_HL.png", true, 69, 78);
     }
 
     function onSeed4() {
         if (seeds[3] <= 0) return;
 
+		removeButtonHL();
+
         seedType = 4;
 		action = SEED;
+
+		seedButtons.members[3].loadGraphic("assets/images/seed4_button_HL.png", true, 69, 78);
     }
 
 	function onHoe() {
+		removeButtonHL();
 		action = TILL;
+		hoeButton.loadGraphic("assets/images/hoe_button_HL.png", true, 87, 72);
+		//FlxG.sound.play("assets/sounds/select_low.mp3", 0.5);
 	}
 
 	function onWater() {
+		removeButtonHL();
 		action = WATER;
+		waterButton.loadGraphic("assets/images/water_button_HL.png", true, 87, 72);
+	}
+
+	function removeButtonHL() {
+		if (action == TILL) {
+			hoeButton.loadGraphic("assets/images/hoe_button.png", true, 87, 72);
+		}
+		else if (action == WATER) {
+			waterButton.loadGraphic("assets/images/water_button.png", true, 87, 72);
+		}
+		else if (action == SEED) {
+			switch (seedType) {
+				case 1:
+					seedButtons.members[0].loadGraphic("assets/images/seed1_button.png", true, 69, 78);
+				case 2:
+					seedButtons.members[1].loadGraphic("assets/images/seed2_button.png", true, 69, 78);
+				case 3:
+					seedButtons.members[2].loadGraphic("assets/images/seed3_button.png", true, 69, 78);
+				case 4:
+					seedButtons.members[3].loadGraphic("assets/images/seed4_button.png", true, 69, 78);
+			}
+		}
 	}
 
 	function flixelInit() {

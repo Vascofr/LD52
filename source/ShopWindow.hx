@@ -167,6 +167,8 @@ class ShopWindow extends FlxSubState {
     }
 
     function closeWindow() {
+        
+
         tweens.tween(titleText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
         tweens.tween(pricesText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
         tweens.tween(cashText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
@@ -227,9 +229,9 @@ class ShopWindow extends FlxSubState {
     }
 
     function onSeed4() {
-        if (PlayState.level < 4) return
+        if (PlayState.level < 4) return;
         if (PlayState.cash < 300) return;
-
+        
         var playState = cast(FlxG.state, PlayState);
         PlayState.cash -= 300;
         playState.cashText.text = "$" + PlayState.cash + " / $" + playState.cashObjective;

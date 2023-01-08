@@ -30,6 +30,8 @@ class EndWindow extends FlxSubState {
 
     var waitToClose:Float = 0.0;
 
+    static public var won:Bool = false;
+
     public function new(Title:String = null) {
         super();
 
@@ -69,7 +71,7 @@ class EndWindow extends FlxSubState {
             case 2:
                 randomTip = "Tip: Select (W)ater, (T)ill with hotkeys";
             case 3:
-                randomTip = "Tip: Rotate with right/middle mouse buttons";
+                randomTip = "Tip: Rotate w/ right/middle mouse buttons";
             case 4:
                 randomTip = "Tip: Hold & drag click to quick-harvest";
             case 5:
@@ -160,7 +162,7 @@ class EndWindow extends FlxSubState {
                     //+ " / $" + playState.cashObjective;
 
 
-        continueButton = new FlxButton(bg.x + 242 + 132, bg.y + 408, "Continue", function() { closeWindow(); });
+        continueButton = new FlxButton(bg.x + 242 + 132, bg.y + 408, "Continue", function() { FlxG.sound.play("assets/sounds/select.mp3", 0.2); closeWindow(); });
         continueButton.loadGraphic("assets/images/button.png", true, 255, 69);
         continueButton.label.font = "assets/data/PressStart2P.ttf";
         continueButton.label.color = 0xffffff;
@@ -176,9 +178,12 @@ class EndWindow extends FlxSubState {
             continueButton.exists = false;
 
         if (PlayState.cash < playState.cashObjective)
-            restartButton = new FlxButton(bg.x + 242 - 132, bg.y + 408, "Restart", function() { PlayState.restartLevel = true; closeWindow(); });
+            restartButton = new FlxButton(bg.x + 242 - 132, bg.y + 408, "Restart", function() { FlxG.sound.play("assets/sounds/select.mp3", 0.2); PlayState.restartLevel = true; closeWindow(); });
         else if (PlayState.level < 6) {
-            restartButton = new FlxButton(bg.x + 242 - 132, bg.y + 408, "Next", function() { PlayState.level++; PlayState.restartLevel = true; closeWindow(); });
+            if (PlayState.level < 5)
+                restartButton = new FlxButton(bg.x + 242 - 132, bg.y + 408, "Next", function() { FlxG.sound.play("assets/sounds/select.mp3", 0.2); PlayState.level++; PlayState.restartLevel = true; closeWindow(); });
+            else
+                restartButton = new FlxButton(bg.x + 242 - 132, bg.y + 408, "Win", function() { FlxG.sound.play("assets/sounds/select.mp3", 0.2); won = true; closeWindow(); });
             restartButton.x += 132;
             continueButton.exists = false;
         }
@@ -233,6 +238,7 @@ class EndWindow extends FlxSubState {
         if (PlayState.cash >= cast(FlxG.state, PlayState).cashObjective) {
             titleText.text = "YOU MADE IT!";
             titleText.color = 0xff4bf0f7;
+            tipText.exists = false;
         }
         else if (cast(FlxG.state, PlayState).day >= cast(FlxG.state, PlayState).totalDays) {
             titleText.text = "TIME'S UP!";
@@ -256,6 +262,7 @@ class EndWindow extends FlxSubState {
     }
 
     function closeWindow() {
+        
         tweens.tween(titleText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
         tweens.tween(tipText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
         tweens.tween(listLeftText, { alpha: 0.0 }, 0.15, { ease: FlxEase.quadOut });
@@ -275,10 +282,17 @@ class EndWindow extends FlxSubState {
         tweens.tween(listRightText, { y: listRightText.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25 });
         tweens.tween(totalLeftText, { y: totalLeftText.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25 });
         tweens.tween(totalRightText, { y: totalRightText.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25 });
-        if (PlayState.cash <= 0 || PlayState.cash >= cast(FlxG.state, PlayState).cashObjective || cast(FlxG.state, PlayState).day >= cast(FlxG.state, PlayState).totalDays)
+
+        if (won) {
+            tweens.tween(continueButton, { y: continueButton.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25, onComplete: function(tween) { cast(FlxG.state, PlayState).openSubState(new InfoWindow("CONGRATULATIONS", 
+                "You made enough money to retire in a galaxy far away!\n\nIt's a good thing the old dollar is so valued nowadays.\n\n\nA game by Vasco Freitas for Ludum Dare 52.")); close(); } });
+        }
+        else if (PlayState.cash <= 0 || PlayState.cash >= cast(FlxG.state, PlayState).cashObjective || PlayState.restartLevel) {
             tweens.tween(continueButton, { y: continueButton.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25, onComplete: function(tween) { waitToClose = 0.4; cast(FlxG.state, PlayState).cameraHUD.fade(0xff1b1c23, 0.4); } });
-        else
+        }
+        else {
             tweens.tween(continueButton, { y: continueButton.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25, onComplete: function(tween) { cast(FlxG.state, PlayState).openSubState(new ShopWindow("SHOP")); close(); } });
+        }
         tweens.tween(restartButton, { y: restartButton.y + slideInAmount }, 0.25, { ease: FlxEase.quadOut, startDelay: 0.25 });
     }
 }
