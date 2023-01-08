@@ -24,7 +24,7 @@ class CursorType {
                 cursors.members[12].exists = true;
                 cursors.members[13].exists = true;
             case 3:
-                cursors.members[7].exists = true;
+                cursors.members[8].exists = true;
                 cursors.members[12].exists = true;
             case 4:
                 cursors.members[7].exists = true;
@@ -66,6 +66,103 @@ class CursorType {
                 cursors.members[7].exists = true;
                 cursors.members[12].exists = true;
                 cursors.members[17].exists = true;
+            case 14:
+                cursors.members[7].exists = true;
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+            case 15:
+                cursors.members[12].exists = true;
+                cursors.members[6].exists = true;
+                cursors.members[8].exists = true;
+                cursors.members[14].exists = true;
+            case 16:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[10].exists = true;
+            case 17:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[9].exists = true;
+            case 18:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[8].exists = true;
+            case 19:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[7].exists = true;
+            case 20:
+                cursors.members[12].exists = true;
+                cursors.members[18].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[7].exists = true;
+            case 21:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[6].exists = true;
+                cursors.members[7].exists = true;
+            case 22:
+                cursors.members[12].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[7].exists = true;
+                cursors.members[8].exists = true;
+            case 23:
+                cursors.members[12].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[8].exists = true;
+                cursors.members[14].exists = true;
+            case 24:
+                cursors.members[16].exists = true;
+                cursors.members[17].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[8].exists = true;
+            case 25:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[6].exists = true;
+                cursors.members[9].exists = true;
+            case 26:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[16].exists = true;
+                cursors.members[9].exists = true;
+            case 27:
+                cursors.members[16].exists = true;
+                cursors.members[17].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[9].exists = true;
+            case 28:
+                cursors.members[12].exists = true;
+                cursors.members[16].exists = true;
+                cursors.members[8].exists = true;
+                cursors.members[4].exists = true;
+            case 29:
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[7].exists = true;
+                cursors.members[8].exists = true;
+            case 30:
+                cursors.members[7].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[17].exists = true;
+            
+            case 31:
+                cursors.members[10].exists = true;
+                cursors.members[11].exists = true;
+                cursors.members[12].exists = true;
+                cursors.members[13].exists = true;
+                cursors.members[14].exists = true;
+            case 32:
+                cursors.members[20].exists = true;
+                cursors.members[16].exists = true;
+                cursors.members[12].exists = true;
+                cursors.members[8].exists = true;
+                cursors.members[4].exists = true;
         }
     }
 

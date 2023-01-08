@@ -36,7 +36,8 @@ class Tile extends FlxSprite {
 
         
         soilSprite = new FlxSprite(X, Y);
-        soilSprite.loadGraphic("assets/images/tiles/empty_1px.png");
+        soilSprite.loadGraphic("assets/images/tiles/empty_soil.png");
+        soilSprite.color = PlayState.levelColor;
         waterSprite = new FlxSprite(X, Y);
         waterSprite.loadGraphic("assets/images/tiles/empty_1px.png");
         selectionSprite = new FlxSprite(X, Y);
@@ -89,14 +90,21 @@ class Tile extends FlxSprite {
     }
 
     public function seed() {
+        var playState = cast(FlxG.state, PlayState);
+
+        if (playState.seeds[playState.seedType - 1] <= 0) return;
+
         if (seedType == 0 || growth == 0) {
-            seedType = cast(FlxG.state, PlayState).seedType;
+            seedType = playState.seedType;
             loadGraphic("assets/images/tiles/seeds.png");
 
             if (seedType == 1) maxGrowth = 3;
             else if (seedType == 2) maxGrowth = 2;
             else if (seedType == 3) maxGrowth = 4;
             else maxGrowth = 5;
+
+            playState.seeds[seedType - 1]--;
+            playState.seedQuantities.members[seedType - 1].text = "" + playState.seeds[seedType - 1];
         }
     }
 
@@ -132,11 +140,13 @@ class Tile extends FlxSprite {
             playState.particleIndex = 0;
         }
 
+        FlxG.camera.flash(0xaaffffff, 0.25);
+
 
         seedType = 0;
         growth = 0;
         tilled = 0;
-        soilSprite.loadGraphic("assets/images/tiles/empty_1px.png");
+        soilSprite.loadGraphic("assets/images/tiles/empty_soil.png");
         if (wilting == maxWilting) {
             color = 0xffffff;
         }
@@ -190,7 +200,7 @@ class Tile extends FlxSprite {
         if (tilled > 0) {
             tilled--;
             if (tilled <= 0) {
-                soilSprite.loadGraphic("assets/images/tiles/empty_1px.png");
+                soilSprite.loadGraphic("assets/images/tiles/empty_soil.png");
             }
             else if (tilled == 1) {
                 soilSprite.loadGraphic("assets/images/tiles/tilled_1.png");
